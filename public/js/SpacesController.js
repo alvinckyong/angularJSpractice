@@ -38,7 +38,7 @@
         this.onFocus = function (){
             console.log('Focus!');
         };
-        //Once a user moves to the new field, you can style the field accordingly
+        //Once a user moves to the new field, you can style the field accordin
         this.onBlur = function (){
             console.log('Blur!');
         };

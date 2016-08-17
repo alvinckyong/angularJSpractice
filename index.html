@@ -7,6 +7,30 @@
     <link rel="stylesheet" href="public/content/main.css"/>
 </head>
 <body>
+<div ng-controller="MainController as main">
+    <a href="" ng-click="myKey = 'one'">
+        Key One
+    </a>
+    <a href="" ng-click="myKey = 'two'">
+        Key Two
+    </a>
+    <p>
+        {{main.myObject}}
+    </p>
+    <p>
+        {{main.myObject[myKey]}}
+    </p>
+    <p>
+        {{main.myArray}}
+    </p>
+    <p>
+        Items: {{
+        main.myArray.length > 1 ?
+        'More than 1' :
+        'One or None??'
+        }}
+    </p>
+</div>
 <div ng-controller="SpacesController as spaces">
     <div class="likes">
         <p>
@@ -36,15 +60,32 @@
         <button type="submit">Submit</button>
     </form>
     <ul>
+        <!-- minus "-" is to change the value of the type to ascending or descending -->
+        <a href="" ng-click="type = '-ranking'">Ranking</a>
+        <a href="" ng-click="type = 'name'">Name</a>
+        <div>
+        <input type="text" placeholder="Type to Search Dynamically" ng-model="search">
+        <li ng-repeat="space in spaces.spacesList | filter: search">
+            {{ $index }} {{ space.name | uppercase}}
+            {{ space.spaceType }}
+        </li>
+        </div>
+        <div>
+            <input type="text" placeholder="Search by Space Type" ng-model="search">
+            <li ng-repeat="space in spaces.spacesList | filter: {spaceType: search}">
+                {{ $index }} {{ space.name | uppercase}}
+                {{ space.spaceType }}
+            </li>
+        </div>
         <li ng-class="{
             excellent: space.ranking > 3 && space.ranking < 5,
             average: space.ranking == 3,
             bad: space.ranking <= 2
             }"
-            ng-repeat="space in spaces.spacesList">
+            ng-repeat="space in spaces.spacesList | orderBy: type">
             <img ng-src="//ia.media-imdb.com/images/{{space.img}}" alt="">
             <a ng-href="//imdb.com/title/{{space.imdb}}" target="_blank">
-                <p ng-class="space.featured == true ? 'featured' : 'notfeatured'">{{ $index }} {{ space.name }}</p>
+                <p ng-class="space.featured == true ? 'featured' : 'notfeatured'">{{ $index }} {{ space.name | uppercase}}</p>
             </a>
             <a href="" ng-click="spaces.addToFavourites(space);">
                 <i class="fa fa-heart" aria-hidden="true"></i>
@@ -77,5 +118,6 @@
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 <script src="public/js/app.js"></script>
 <script src="public/js/SpacesController.js"></script>
+<script src="public/js/MainController.js"></script>
 </body>
 </html>
