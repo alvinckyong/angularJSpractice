@@ -1,0 +1,81 @@
+<html ng-app="app">
+<head>
+    <title>My Angular app</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="public/content/main.css"/>
+</head>
+<body>
+<div ng-controller="SpacesController as spaces">
+    <div class="likes">
+        <p>
+            My Favourite Spaces
+        </p>
+        <ul>
+            <li ng-repeat="favourite in spaces.favouritesList">
+                {{favourite.name}}
+                <a href="" ng-click="spaces.unfavourite($index);">
+                    Remove from favourite!
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <form ng-submit="spaces.addSpace();">
+        <p>Add new Space</p>
+        <input
+                type="text"
+                placeholder="Name of Space"
+                ng-focus="spaces.onFocus();"
+                ng-blur="spaces.onBlur();"
+                ng-change="spaces.onChange();"
+                ng-model="spaces.newName">
+        <input type="text" placeholder="Space Type"
+               ng-model="spaces.newSpaceType">
+        <button type="submit">Submit</button>
+    </form>
+    <ul>
+        <li ng-class="{
+            excellent: space.ranking > 3 && space.ranking < 5,
+            average: space.ranking == 3,
+            bad: space.ranking <= 2
+            }"
+            ng-repeat="space in spaces.spacesList">
+            <img ng-src="//ia.media-imdb.com/images/{{space.img}}" alt="">
+            <a ng-href="//imdb.com/title/{{space.imdb}}" target="_blank">
+                <p ng-class="space.featured == true ? 'featured' : 'notfeatured'">{{ $index }} {{ space.name }}</p>
+            </a>
+            <a href="" ng-click="spaces.addToFavourites(space);">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <p>Ranking: {{ space.ranking }}</p>
+            <p ng-hide="!space.featured">Don't hide! This is a featured space!</p>
+            <p ng-show="space.featured">Show! This is a featured space again!</p>
+            <p ng-if="space.featured">What if? This is a featured space again!</p>
+            <p ng-show="space.ranking > '3'">This is a recommended space! (Show if ranking is >3)</p>
+            <div ng-switch="space.spaceType">
+                <p>Space Type:</p>
+                <div ng-switch-when="office">
+                    Office Space
+                </div>
+                <div ng-switch-when="event">
+                    Event Space
+                </div>
+                <div ng-switch-when="retail">
+                    Retail Space
+                </div>
+                <div ng-switch-default>
+                    I wonder what space type this is!
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script src="public/js/app.js"></script>
+<script src="public/js/SpacesController.js"></script>
+</body>
+</html>

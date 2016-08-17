@@ -1,0 +1,6 @@
+.excellent {background: green;} /* 4 & 5 */
+.average {background: orange;} /* 3 */
+.bad {background: red;} /* 1 & 2 */
+
+.featured {font-weight: bold;}
+.notfeatured {font-style: italic;}
